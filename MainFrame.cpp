@@ -89,7 +89,7 @@ void MainFrame::UpdateGUI(wxCommandEvent& event) {
 }
 
 MainFrame::MainFrame(const wxString& title):wxFrame(nullptr, wxID_ANY, title), reader(nullptr) {
-	CreateStatusBar(1); // pasek na dole (liczba sekcji)
+	CreateStatusBar(1); 
 	panel = new wxPanel(this, wxID_ANY);
 	portInputButton = new wxButton(panel, BUTTON_ID, "zatwierdz port szeregowy", wxPoint(200, 355), wxSize(200, 40));
 	portNameInput = new wxTextCtrl(panel, TEXT_ID, "", wxPoint(200, 305), wxSize(200, 40));
@@ -111,7 +111,7 @@ MainFrame::~MainFrame(){}
 
 wxDEFINE_EVENT(wxEVT_UPDATE_GUI, wxCommandEvent);
 
-// to tez na koncu poza klas¹ jak pole statyczne, deklaracja w .h, tutaj begin-end
+// "static" table so we define it outside the mainFrame class
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 EVT_BUTTON(BUTTON_ID, MainFrame::PortInput)
 EVT_BUTTON(START_READING, MainFrame::BeginRead)
