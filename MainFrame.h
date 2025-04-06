@@ -5,8 +5,7 @@ namespace USB_reader {
 	class Connector;
 };
 
-enum IDs
-{
+enum IDs{
 	BUTTON_ID = 2,
 	TEXT_ID = 3,
 	START_READING = 4,
@@ -17,13 +16,11 @@ enum IDs
 };
 
 
-class MainFrame : public wxFrame
-{
+class MainFrame : public wxFrame{
 private:
-	//elementy logiki 
 	USB_reader::Connector* reader; 
 
-	// elementy GUI
+	// GUI
 	wxPanel* panel;
 
 	wxButton* startReading;
@@ -38,7 +35,7 @@ private:
 
 	wxString portName;
 
-	//funkcje do zbindowania
+	//methods
 	void PortInput(wxCommandEvent& event);
 	void BeginRead(wxCommandEvent& event);
 	void StopRead(wxCommandEvent& event);
@@ -53,4 +50,4 @@ public:
 	wxDECLARE_EVENT_TABLE();
 };
 
-wxDECLARE_EVENT(wxEVT_UPDATE_GUI, wxCommandEvent); // to jest do synchronizacji eventow typu jeden button cos wywoluje a ten event handler reaguje globalnie
+wxDECLARE_EVENT(wxEVT_UPDATE_GUI, wxCommandEvent); // table that synchronizes events
