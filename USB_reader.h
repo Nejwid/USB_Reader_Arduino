@@ -19,8 +19,8 @@ namespace USB_reader {
         boost::asio::streambuf buffer;
         thread t1; 
         vector<string> logs;
-        atomic<bool> flaga; // flaga do pêtli odczytu danych
-        atomic<bool> open, is_reading; // flaga do sprawdzenia czy port zosta³ otwarty i czy trwa odczytywanie danych
+        atomic<bool> flaga; // flag using in a reading loop
+        atomic<bool> open, is_reading; // flag to check if port was open succesfully, and another flag to check if the reading is going on
 
         void StopReadingData();
         void ReadData();
@@ -36,7 +36,7 @@ namespace USB_reader {
         Connector operator= (const Connector&) = delete;
         static Connector& getInstance(const string& com);
         static void Reset() { instance.reset(); };
-        // koniec singletona
+        // end of singletona
 
         bool IsOpen() const;
         void Read();
