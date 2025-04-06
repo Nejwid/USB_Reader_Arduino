@@ -2,13 +2,11 @@
 #include <wx/wx.h>
 #include "MainFrame.h"
 
-class App : public wxApp
-{
+class App : public wxApp{
 private:
 
 public:
-	bool OnInit()
-	{
+	bool OnInit(){
 		MainFrame* frame = new MainFrame("USB Input Reader by Dawid Nowak");
 		frame->Show();
 		return true;
