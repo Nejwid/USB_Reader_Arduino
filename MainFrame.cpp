@@ -1,7 +1,7 @@
 #include "MainFrame.h"
 #include "USB_reader.h"
 
-void MainFrame::PortInput(wxCommandEvent& event) { // funkcja do poprawnego zainicjowania instancji Connector
+void MainFrame::PortInput(wxCommandEvent& event) { // method to initialize connector instance
 	portName = portNameInput->GetValue();
 	USB_reader::Connector::Reset();    
 	reader = &USB_reader::Connector::getInstance(string(portName.mb_str()));
@@ -29,7 +29,8 @@ void MainFrame::BeginRead(wxCommandEvent& event) {
 	wxPostEvent(this, updateEvent); 
 }
 
-// po zatrzymaniu odczytywania trzeba jeszcze jeden bufor odebrac bo tak dziala funkcja read - blokuje wszystko dopóki nie dotanie bufora, dlatego wysy³amy komunikat ¿e chcemy zakoñczyæ i arduino nam odpowiada
+// after the reading "stopped" we need to receive one more data buffor to unlock main thread (I tried to use asynchronus method but for some reason it didnt work)
+// so we send to arduino a message informing it that we stopped reading data, and it confirms back 
 void MainFrame::StopRead(wxCommandEvent& event) {
 	reader->StopReading(); 
 	wxLogStatus("stopped"); 
@@ -51,7 +52,7 @@ void MainFrame::ReRead(wxCommandEvent& event) {
 void MainFrame::DisplayInfo(wxCommandEvent& event) {
 	vector<string> temp = reader->GetLogs();
 	logsBox->Clear();
-	for (const string& it : temp) { // zawartosc jest already przetworzona
+	for (const string& it : temp) {
 		logsBox->Append(it);
 	}
 	wxLogStatus("showing data");
@@ -110,7 +111,7 @@ MainFrame::~MainFrame(){}
 
 wxDEFINE_EVENT(wxEVT_UPDATE_GUI, wxCommandEvent);
 
-// to tez na koncu poza klas¹ jak pole statyczne, deklaracja w .h, tutaj begin-end
+// to tez na koncu poza klasÂ¹ jak pole statyczne, deklaracja w .h, tutaj begin-end
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 EVT_BUTTON(BUTTON_ID, MainFrame::PortInput)
 EVT_BUTTON(START_READING, MainFrame::BeginRead)
