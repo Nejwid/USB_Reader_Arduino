@@ -1,5 +1,7 @@
 #include "USB_reader.h"
 
+// git check
+
 namespace USB_reader {
 
     unique_ptr<Connector> Connector::instance;
@@ -25,9 +27,9 @@ namespace USB_reader {
 
     void Connector::ReadData() {
         string startReading = "stop"; 
-        boost::asio::write(this->port, boost::asio::buffer(startReading)); // informujemy arduino zeby zacz¹³ serial.println, odpowiednia funckja zaimplementowana w sofcie kontrolera
+        boost::asio::write(this->port, boost::asio::buffer(startReading)); // informujemy arduino zeby zaczÂ¹Â³ serial.println, odpowiednia funckja zaimplementowana w sofcie kontrolera
         while (this->flaga) {
-            boost::asio::read(port, buffer, boost::asio::transfer_at_least(1)); // bez tego bufora tez bedzie dzialac bo ta funkcja odczytuje jeden raz write, wiêc mozna stworzyc bufor in place
+            boost::asio::read(port, buffer, boost::asio::transfer_at_least(1)); // bez tego bufora tez bedzie dzialac bo ta funkcja odczytuje jeden raz write, wiÃªc mozna stworzyc bufor in place
             while (buffer.size() > 0) {
                 string temp = "";
 
@@ -48,11 +50,11 @@ namespace USB_reader {
 
     void Connector::StopReadingData() {
         string endReading = "stop";
-        boost::asio::write(this->port, boost::asio::buffer(endReading)); // ta funkcja informuje arduino ¿e ju¿ nie odczytujemy, a funkcja boost::asio::read otrzyma od arduino informacje o koñcu nadawania
+        boost::asio::write(this->port, boost::asio::buffer(endReading)); // ta funkcja informuje arduino Â¿e juÂ¿ nie odczytujemy, a funkcja boost::asio::read otrzyma od arduino informacje o koÃ±cu nadawania
         this->flaga = false;
     }
 
-    bool Connector::IsOpen() const { // sprawdzamy czy instancja zosta³a utworzona zgodnie z zamierzeniem tj. czy uzyska³a dostêp do portu szeregowego
+    bool Connector::IsOpen() const { // sprawdzamy czy instancja zostaÂ³a utworzona zgodnie z zamierzeniem tj. czy uzyskaÂ³a dostÃªp do portu szeregowego
         return this->open;
     }
 
@@ -66,7 +68,7 @@ namespace USB_reader {
         else cout << "no data found. read data first" << endl;
     }
 
-    void Connector::Read() { // rozpoczêcie czytania danych
+    void Connector::Read() { // rozpoczÃªcie czytania danych
         if (is_reading) {
             return;
         }
@@ -80,7 +82,7 @@ namespace USB_reader {
         }
     }
 
-    void Connector::StopReading() { // zakoñczenie (przerwanie) czytania danych
+    void Connector::StopReading() { // zakoÃ±czenie (przerwanie) czytania danych
         if (!is_reading) {
             return;
         }
@@ -94,7 +96,7 @@ namespace USB_reader {
         is_reading = false;
     }
 
-    // metoda do pobierania logów
+    // metoda do pobierania logÃ³w
     vector<string> Connector::GetLogs() const {
         lock_guard<mutex> lock(mtx);
         return logs;
@@ -102,17 +104,17 @@ namespace USB_reader {
 
     Connector::~Connector() {}
 
-    string ProcessLogs(const string& log) { // funkcja usuwania spacji tabulatorów i bia³ych znaków
+    string ProcessLogs(const string& log) { // funkcja usuwania spacji tabulatorÃ³w i biaÂ³ych znakÃ³w
         string trimmed = log;
         size_t firstNonWhitespace = trimmed.find_first_not_of(" \t\n\r");
         size_t lastNonWhitespace = trimmed.find_last_not_of(" \t\n\r");
 
-        // Je¿eli nie ma ¿adnych znaków poza bia³ymi, trimmed bêdzie pusty
+        // JeÂ¿eli nie ma Â¿adnych znakÃ³w poza biaÂ³ymi, trimmed bÃªdzie pusty
         if (firstNonWhitespace != string::npos && lastNonWhitespace != string::npos) {
             trimmed = trimmed.substr(firstNonWhitespace, lastNonWhitespace - firstNonWhitespace + 1);
         }
         else {
-            trimmed.clear();  // Je¿eli ca³y ci¹g to bia³e znaki, zrób go pustym
+            trimmed.clear();  // JeÂ¿eli caÂ³y ciÂ¹g to biaÂ³e znaki, zrÃ³b go pustym
         }
         return trimmed;
     }
